@@ -21,13 +21,13 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="relative w-full mb-3">
+  <div class="relative w-full mb-3 my-auto">
     <div class="p-1 mb-1" v-for="(error, index) of errors" :key="index">
       <p class="text-sm text-red-500">
         {{ error.$message }}
       </p>
     </div>
-    <div class="flex items-center pl-4 border rounded">
+    <div class="flex items-center pl-4 border border-gray-200 rounded">
       <input
         :id="id"
         type="checkbox"

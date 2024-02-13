@@ -1,4 +1,6 @@
 <script setup>
+import { integer } from "@vuelidate/validators";
+
 defineEmits(["update:modelValue", "blur"]);
 const props = defineProps({
   id: {
@@ -30,6 +32,12 @@ const props = defineProps({
     required: false,
     default: false,
   },
+  min: {
+    type: Number,
+  },
+  max: {
+    type: Number,
+  },
 });
 </script>
 
@@ -52,6 +60,8 @@ const props = defineProps({
       :placeholder="placeholder"
       class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
       :disabled="disabled"
+      :min="min"
+      :max="max"
     />
   </div>
 </template>

@@ -168,8 +168,8 @@ onMounted(async () => {
         type="text"
       />
       <Checkbox
-        id="staff"
         v-if="profileStore.isAdmin"
+        id="staff"
         label-text="Acceso del sistema"
         v-model="v$.staff.$model"
       />

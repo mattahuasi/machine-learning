@@ -55,7 +55,7 @@ async function handleSubmit() {
 
 <template>
   <Form title="Cambiar contraseña" @handle-submit="handleSubmit">
-    <div class="grid grid-cols-1 gap-6 mt-4 lg:mx-60">
+    <div class="grid grid-cols-1 gap-6 mt-4">
       <Input
         id="oldPassword"
         label-text="Actual contraseña"
