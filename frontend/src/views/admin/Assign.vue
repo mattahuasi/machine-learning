@@ -27,8 +27,8 @@ const status = ref("all");
 const load = ref(true);
 const columns = ref([
   { key: "id", label: "ID" },
-  { key: "first_name", label: "Nombre/s" },
-  { key: "last_name", label: "Apellidos" },
+  { key: "firstName", label: "Nombre/s" },
+  { key: "lastName", label: "Apellidos" },
   { key: "ci", label: "CI" },
   { key: "role", label: "Rol" },
   { key: "status", label: "Habilitado", status: true },
@@ -47,7 +47,9 @@ async function loadData() {
     itemsDisplay.value = items.value;
     load.value = false;
   } catch (error) {
-    toast.error("Error al cargar datos");
+    toast.error(
+      "Se produjo un error al cargar los datos. Por favor, inténtalo de nuevo."
+    );
   }
 }
 
@@ -107,27 +109,33 @@ async function action(action) {
       await updateStatusEmployeeRequest(action.id);
       items.value = [];
       loadData();
-      toast.success("Estado de empleado cambiado");
+      toast.success("¡Estado de empleado cambiado exitosamente!");
     } catch (error) {
-      toast.error("Error al cambiar estado de empleado");
+      toast.error(
+        "Se produjo un error al intentar cambiar el estado del empleado. Por favor, inténtalo nuevamente."
+      );
     }
   } else if (action.action === "delete") {
     try {
       await deleteEmployeeRequest(action.id);
       items.value = [];
       loadData();
-      toast.success("Empleado eliminado");
+      toast.success("¡Empleado eliminada exitosamente!");
     } catch (error) {
-      toast.error("Error al eliminar empleado");
+      toast.error(
+        "Se produjo un error al intentar eliminar al empleado. Por favor, inténtalo nuevamente."
+      );
     }
   } else if (action.action === "disconnect") {
     try {
       await disconnectCardEmployeeRequest(action.id);
       items.value = [];
       loadData();
-      toast.success("Tarjeta desvinculada");
+      toast.success("¡Tarjeta desvinculada exitosamente!");
     } catch (error) {
-      toast.error("Error al desvincular tarjeta");
+      toast.error(
+        "Se produjo un error al intentar desvincular la tarjeta. Por favor, inténtalo nuevamente."
+      );
     }
   } else if (action.action === "connect") {
     try {
@@ -147,7 +155,9 @@ onMounted(async () => {
     const res = await getRolesRequest();
     roles.value = res.data;
   } catch (error) {
-    toast.error("Error al cargar roles");
+    toast.error(
+      "Se produjo un error al cargar los datos. Por favor, inténtalo de nuevo."
+    );
   }
 });
 </script>
@@ -157,7 +167,6 @@ onMounted(async () => {
     <template v-slot:filters>
       <button-add to="/new/employees"> Agregar empleado </button-add>
     </template>
-    <data-table check="true" :items="itemsDisplay" :columns="columns">
-    </data-table>
+    <data-table :items="itemsDisplay" :columns="columns"> </data-table>
   </card-data>
 </template>

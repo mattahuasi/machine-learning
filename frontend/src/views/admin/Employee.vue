@@ -27,7 +27,7 @@ const status = ref("all");
 const load = ref(true);
 const columns = ref([
   { key: "id", label: "ID" },
-  { key: "firstName", label: "Nombres" },
+  { key: "firstName", label: "Nombre/s" },
   { key: "lastName", label: "Apellidos" },
   { key: "email", label: "Correo electrónico" },
   { key: "ci", label: "CI" },
@@ -75,7 +75,9 @@ async function loadData() {
     itemsDisplay.value = items.value;
     load.value = false;
   } catch (error) {
-    toast.error("Error al cargar datos");
+    toast.error(
+      "Se produjo un error al cargar los datos. Por favor, inténtalo de nuevo."
+    );
   }
 }
 
@@ -116,27 +118,33 @@ async function action(action) {
       await updateStatusEmployeeRequest(action.id);
       items.value = [];
       loadData();
-      toast.success("Estado de empleado cambiado");
+      toast.success("¡Estado de empleado cambiado exitosamente!");
     } catch (error) {
-      toast.error("Error al cambiar estado de empleado");
+      toast.error(
+        "Se produjo un error al intentar cambiar el estado del empleado. Por favor, inténtalo nuevamente."
+      );
     }
   } else if (action.action === "delete") {
     try {
       await deleteEmployeeRequest(action.id);
       items.value = [];
       loadData();
-      toast.success("Empleado eliminado");
+      toast.success("¡Empleado eliminada exitosamente!");
     } catch (error) {
-      toast.error("Error al eliminar empleado");
+      toast.error(
+        "Se produjo un error al intentar eliminar al empleado. Por favor, inténtalo nuevamente."
+      );
     }
   } else if (action.action === "disconnect") {
     try {
       await disconnectCardEmployeeRequest(action.id);
       items.value = [];
       loadData();
-      toast.success("Tarjeta desvinculada");
+      toast.success("¡Tarjeta desvinculada exitosamente!");
     } catch (error) {
-      toast.error("Error al desvincular tarjeta");
+      toast.error(
+        "Se produjo un error al intentar desvincular la tarjeta. Por favor, inténtalo nuevamente."
+      );
     }
   } else if (action.action === "connect") {
     try {
@@ -156,7 +164,9 @@ onMounted(async () => {
     const res = await getRolesRequest();
     roles.value = res.data;
   } catch (error) {
-    toast.error("Error al cargar roles");
+    toast.error(
+      "Se produjo un error al cargar los datos. Por favor, inténtalo de nuevo."
+    );
   }
 });
 </script>

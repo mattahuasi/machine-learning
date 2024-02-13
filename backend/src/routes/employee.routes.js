@@ -11,7 +11,7 @@ import {
   updateEmployee,
   deleteEmployee,
   updateStatusEmployee,
-  getEmployeeTimes,
+  getEmployeesTimes,
   getEmployeeTimeTable,
   updateEmployeeTimeTable,
 } from "../controllers/employee.controller.js";
@@ -31,7 +31,7 @@ router.put("/employees/status/:id", authRequired, updateStatusEmployee);
 router.delete("/employees/:id", authRequired, deleteEmployee);
 
 //rutas para el horario
-router.get("/employees/times", authRequired, getEmployeeTimes);
+router.get("/employees/times", authRequired, getEmployeesTimes);
 router.get("/employees/times/:id", authRequired, getEmployeeTimeTable);
 router.put("/employees/times/:id", authRequired, updateEmployeeTimeTable);
 

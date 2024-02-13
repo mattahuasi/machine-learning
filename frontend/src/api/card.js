@@ -9,7 +9,7 @@ export const getCardRequest = (id) => axios.get("/cards/" + id);
 export const getCardEmployeeRequest = (id) =>
   axios.get("/cards/employee/" + id);
 
-export const getCardTypesRequest = (id, userId) =>
+export const getCardTypeEmployeeRequest = (id, userId) =>
   axios.get("/cards/card-types/" + id + "/" + userId);
 
 export const updateCardRequest = (id, card) => axios.put("/cards/" + id, card);

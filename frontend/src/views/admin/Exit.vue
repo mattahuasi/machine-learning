@@ -23,7 +23,7 @@ const final = ref(
 const load = ref(true);
 const columns = ref([
   { key: "id", label: "ID" },
-  { key: "full_name", label: "Nombre completo" },
+  { key: "fullName", label: "Nombre completo" },
   { key: "ci", label: "CI" },
   { key: "role", label: "Rol" },
   { key: "turnstile", label: "Molinete" },
@@ -39,7 +39,9 @@ async function loadData() {
     itemsDisplay.value = items.value;
     load.value = false;
   } catch (error) {
-    toast.error("Error al cargar datos");
+    toast.error(
+      "Se produjo un error al cargar los datos. Por favor, inténtalo de nuevo."
+    );
   }
 }
 

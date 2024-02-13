@@ -91,17 +91,17 @@ function notification() {
           <div>
             <label class="inline-flex items-center">
               <input
-                type="checkbox"
                 class="text-indigo-600 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                type="checkbox"
               />
-              <span class="mx-2 text-sm text-gray-600">Remember me</span>
+              <span class="mx-2 text-sm text-gray-600">Recuérdate</span>
             </label>
           </div>
           <div>
-            <a
+            <router-link
+              to="/"
               class="block text-sm text-indigo-700 font-medium hover:underline"
-              href="#"
-              >Forgot your password?</a
+              >¿Olvidaste tu contraseña?</router-link
             >
           </div>
         </div>

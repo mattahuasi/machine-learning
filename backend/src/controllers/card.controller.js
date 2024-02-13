@@ -18,6 +18,7 @@ export const getCards = async (req, res) => {
             model: User,
           },
         ],
+        order: [["id", "ASC"]],
       });
     } else {
       cards = await Card.findAll({
@@ -79,6 +80,7 @@ export const getCardTypes = async (req, res) => {
           where: { id },
         },
       ],
+      order: [["id", "ASC"]],
     });
     const cardModify = cards.map((card) => ({
       id: card.id,

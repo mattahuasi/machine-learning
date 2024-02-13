@@ -101,6 +101,7 @@ export const getEmployeesAdmin = async (req, res) => {
         },
         { model: Role, attributes: ["id", "name"] },
       ],
+      order: [["id", "ASC"]],
     });
 
     // ! esta variable no se usa: const myUser = await User.findByPk(req.user.id);
@@ -161,6 +162,7 @@ export const getEmployeesStaff = async (req, res) => {
         },
         { model: Role, attributes: ["id", "name"] },
       ],
+      order: [["id", "ASC"]],
     });
 
     const employeesModify = employees.map((user) => ({
@@ -332,10 +334,11 @@ export const getEmployeeTimeTable = async (req, res) => {
 };
 
 //obtener todos los empleados y horarios
-export const getEmployeeTimes = async (req, res) => {
+export const getEmployeesTimes = async (req, res) => {
   try {
     const employees = await Employee.findAll({
       include: [{ model: User }, { model: Role }, { model: TimeTable }],
+      order: [["id", "ASC"]],
     });
 
     const employeesData = employees.map((employee) => ({

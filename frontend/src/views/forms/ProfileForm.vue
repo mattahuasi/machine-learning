@@ -38,7 +38,7 @@ const rules = {
   },
   address: {
     required: helpers.withMessage(
-      "Por favor, ingresa la dirección tu domicilio",
+      "Por favor, ingresa la dirección de tu domicilio",
       required
     ),
   },
@@ -91,11 +91,20 @@ onMounted(() => {
         type="text"
       />
       <Input
+        id="ci"
+        label-text="Cédula de identidad"
+        v-model="v$.ci.$model"
+        :errors="v$.ci.$errors"
+        type="text"
+        disabled
+      />
+      <Input
         id="email"
         label-text="Correo electrónico"
         v-model="v$.email.$model"
         :errors="v$.email.$errors"
         type="email"
+        disabled
       />
       <Input
         id="phone"

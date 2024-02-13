@@ -41,8 +41,9 @@ async function loadData() {
     itemsDisplay.value = items.value;
     load.value = false;
   } catch (error) {
-    toast.error("Error al cargar datos");
-    console.log(error);
+    toast.error(
+      "Se produjo un error al cargar los datos. Por favor, inténtalo de nuevo."
+    );
   }
 }
 
@@ -70,9 +71,11 @@ async function action(action) {
       await deleteCardTypeRequest(action.id);
       items.value = [];
       loadData();
-      toast.success("Tarjeta eliminada");
+      toast.success("¡Tipo de tarjeta eliminada exitosamente!");
     } catch (error) {
-      toast.error("Error al eliminar tarjeta");
+      toast.error(
+        "Se produjo un error al intentar eliminar el tipo tarjeta. Por favor, inténtalo nuevamente."
+      );
     }
   }
 }

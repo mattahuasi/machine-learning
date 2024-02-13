@@ -154,12 +154,12 @@ export const getCardsTotal = async (req, res) => {
     const cardsAssigned = await Card.count({
       where: { userId: { [Op.not]: null } },
     });
-    const cardsNoAssigned = await Card.count({
+    const cardsUnassigned = await Card.count({
       where: { userId: { [Op.eq]: null } },
     });
     res.json({
       assigned: cardsAssigned,
-      noAssigned: cardsNoAssigned,
+      unassigned: cardsUnassigned,
     });
   } catch (error) {
     return res.status(500).json({ errors: [error] });

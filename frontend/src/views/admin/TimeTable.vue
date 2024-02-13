@@ -34,7 +34,9 @@ async function loadData() {
     itemsDisplay.value = items.value;
     load.value = false;
   } catch (error) {
-    toast.error("Error al cargar datos");
+    toast.error(
+      "Se produjo un error al cargar los datos. Por favor, inténtalo de nuevo."
+    );
   }
 }
 
@@ -53,7 +55,7 @@ function searchItems(event) {
 async function action(action) {
   if (action.action === "update") {
     router.push({
-      path: "/update/time-table",
+      path: "/update/time-tables",
       query: { id: action.id },
     });
   }
@@ -67,7 +69,7 @@ onMounted(() => {
 <template>
   <card-data title="Horarios">
     <template v-slot:filters>
-      <button-add to="/new/time-table">Crear horario</button-add>
+      <button-add to="/new/time-tables">Crear horario</button-add>
     </template>
     <data-table :items="itemsDisplay" :columns="columns"></data-table>
   </card-data>

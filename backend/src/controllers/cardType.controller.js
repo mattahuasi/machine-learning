@@ -2,7 +2,9 @@ import { CardType } from "../models/Card.js";
 
 export const getCardTypes = async (req, res) => {
   try {
-    const cardType = await CardType.findAll();
+    const cardType = await CardType.findAll({
+      order: [["id", "ASC"]],
+    });
     res.json(cardType);
   } catch (error) {
     res.status(500).json({

@@ -34,6 +34,7 @@ onMounted(async () => {
     toast.error(error.message);
   }
   try {
+    load.value = true;
     const res = await getEmployeesRequest();
     employeesTotal.value.push({
       value: res.data.inside,
@@ -43,21 +44,22 @@ onMounted(async () => {
       value: res.data.outside,
       name: "Empleados fuera",
     });
-    load.value = true;
+    load.value = false;
   } catch (error) {
     toast.error(error.message);
   }
   try {
+    load.value = true;
     const res = await getCardsRequest();
     cardsTotal.value.push({
-      value: res.data.inside,
+      value: res.data.assigned,
       name: "Tarjetas asignadas",
     });
     cardsTotal.value.push({
-      value: res.data.outside,
+      value: res.data.unassigned,
       name: "Tarjetas sin asignar",
     });
-    load.value = true;
+    load.value = false;
   } catch (error) {
     toast.error(error.message);
   }

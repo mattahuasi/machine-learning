@@ -24,7 +24,7 @@ async function main() {
     const mqttClient = new mqttHandler();
     mqttClient.connect();
   } catch (error) {
-    console.log("Error during initialization:" + error);
+    console.log(`Error during initialization: ${error}`);
   }
 }
 

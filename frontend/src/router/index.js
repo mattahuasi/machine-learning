@@ -118,11 +118,11 @@ const router = createRouter({
           component: TimeTable,
         },
         {
-          path: "/update/time-tables",
+          path: "/new/time-tables",
           component: TimeTableForm,
         },
         {
-          path: "/new/time-tables",
+          path: "/update/time-tables",
           component: TimeTableForm,
         },
         // Asignación

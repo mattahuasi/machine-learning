@@ -53,7 +53,9 @@ async function loadData() {
     itemsDisplay.value = items.value;
     load.value = false;
   } catch (error) {
-    toast.error("Error al cargar datos");
+    toast.error(
+      "Se produjo un error al cargar los datos. Por favor, inténtalo de nuevo."
+    );
   }
 }
 
@@ -81,18 +83,22 @@ async function action(action) {
       await deleteCardRequest(action.id);
       items.value = [];
       loadData();
-      toast.success("Tarjeta eliminada");
+      toast.success("¡Tarjeta eliminada exitosamente!");
     } catch (error) {
-      toast.error("Error al eliminar tarjeta");
+      toast.error(
+        "Se produjo un error al intentar eliminar la tarjeta. Por favor, inténtalo nuevamente."
+      );
     }
   } else if (action.action === "disconnect") {
     try {
       await disconnectCardRequest(action.id);
       items.value = [];
       loadData();
-      toast.success("Tarjeta desvinculada");
+      toast.success("¡Tarjeta desvinculada exitosamente!");
     } catch (error) {
-      toast.error("Error al desvincular tarjeta");
+      toast.error(
+        "Se produjo un error al intentar desvincular la tarjeta. Por favor, inténtalo nuevamente."
+      );
     }
   }
 }
@@ -105,10 +111,7 @@ onMounted(() => {
 <template>
   <card-data title="Tarjetas">
     <template v-slot:filters>
-      <div class="pb-4">
-        <Search v-model="searchQuery" />
-      </div>
-      <button-add to="/new/cards">Agregar Tarjeta</button-add>
+      <button-add to="/new/cards">Agregar tarjeta</button-add>
     </template>
     <data-table :items="itemsDisplay" :columns="columns"> </data-table>
   </card-data>
