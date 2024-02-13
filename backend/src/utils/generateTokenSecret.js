@@ -4,10 +4,10 @@ import { randomBytes } from "crypto";
 const envFile = readFileSync(".env", "utf8");
 
 const updatedEnvFile = envFile.replace(
-  /APP_TOKEN_SECRET=(.*)/,
+  /TOKEN_SECRET=(.*)/,
   (match, currentToken) => {
     const newToken = randomBytes(32).toString("hex");
-    return `APP_TOKEN_SECRET=${newToken}`;
+    return `TOKEN_SECRET=${newToken}`;
   }
 );
 

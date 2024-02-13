@@ -7,7 +7,7 @@ export const authRequired = (req, res, next) => {
       .status(401)
       .json({ errors: ["Authorization failed: No token provided."] });
 
-  jwt.verify(token, process.env.APP_TOKEN_SECRET, (err, user) => {
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
     if (err)
       return res
         .status(403)
