@@ -164,7 +164,7 @@ onMounted(async () => {
     <template v-slot:filters>
       <div class="flex flex-col justify-between md:flex-row gap-2 w-full">
         <Search v-model="searchQuery" />
-        <div class="flex flex-row gap-1 sm:flex-row">
+        <div class="flex flex-row gap-2">
           <select
             v-model="status"
             class="block w-full h-full px-4 py-2 pr-8 leading-tight text-sm text-gray-500 bg-white border-gray-300 rounded-md appearance-none focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"

@@ -69,9 +69,38 @@ onMounted(() => {
 <template>
   <card-data title="Entradas" icon="fa-sign-in-alt">
     <template v-slot:filters>
-      <div class="flex flex-col justify-between md:flex-row gap-2 w-full">
+      <div class="flex flex-col justify-between md:flex-row gap-2">
         <Search v-model="searchQuery" />
-        <div class="flex flex-row gap-1 sm:flex-row"></div>
+        <div class="flex flex-row gap-2">
+          <div class="relative mt-1">
+            <label
+              class="text-xs text-gray-600 absolute top-0 left-2 transform translate-y-[-110%]"
+            >
+              Fecha de inicio
+            </label>
+            <input
+              id="items"
+              v-model="init"
+              class="block w-full text-sm text-gray-700 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+              name="items"
+              type="date"
+            />
+          </div>
+          <div class="relative mt-1">
+            <label
+              class="text-xs text-gray-600 absolute top-0 left-2 transform translate-y-[-110%]"
+            >
+              Fecha final
+            </label>
+            <input
+              id="items"
+              v-model="final"
+              class="block w-full text-sm text-gray-700 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+              name="items"
+              type="date"
+            />
+          </div>
+        </div>
       </div>
     </template>
     <DataTable :columns="columns" :items="itemsDisplay" :options="options" />
