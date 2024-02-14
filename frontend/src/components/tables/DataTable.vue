@@ -1,13 +1,20 @@
 <script setup>
 import { ref, computed } from "vue";
 import { fullDateFormat } from "@/utils/dateFormatter";
+import Dropdown from "@/components/dropdowns/Dropdown.vue";
+import DropdownTable from "@/components/dropdowns/DropdownTable.vue";
 
+const emit = defineEmits(["action"]);
 const props = defineProps({
   columns: {
     type: Array,
     required: true,
   },
   items: {
+    type: Array,
+    required: true,
+  },
+  options: {
     type: Array,
     required: true,
   },
@@ -23,6 +30,10 @@ const itemsDisplay = computed(() => {
   const end = start + itemsPerPage.value;
   return props.items.slice(start, end);
 });
+
+function action(data) {
+  emit("action", data);
+}
 </script>
 
 <template>
@@ -37,6 +48,12 @@ const itemsDisplay = computed(() => {
               class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
             >
               {{ column.label }}
+            </th>
+            <th
+              v-if="options.length > 0"
+              class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+            >
+              <span>Acciones</span>
             </th>
           </tr>
         </thead>
@@ -88,8 +105,38 @@ const itemsDisplay = computed(() => {
                     scale="1.5"
                 /></span>
               </span>
-              <span v-else-if="column.image">Image</span>
               <span v-else>{{ item[column.key] }}</span>
+            </td>
+            <td
+              v-if="options.length > 0"
+              class="px-5 py-3 text-xs bg-white border-b border-gray-200"
+            >
+              <DropdownTable :options="options" @emit="emit" :id="item.id" />
+              <Dropdown>
+                <template v-slot:icon>
+                  <div>
+                    <button type="button" class="flex text-sm rounded-full">
+                      <v-icon
+                        name="hi-solid-dots-vertical"
+                        class="w-6 h-6 rounded-full text-gray-700 p-1"
+                      />
+                    </button>
+                  </div>
+                </template>
+                <div
+                  class="z-50 text-base list-none bg-white divide-y divide-gray-100 rounded-md shadow-xl"
+                >
+                  <ul class="py-1 text-left" role="none">
+                    <li v-for="(option, index) in options" :key="index">
+                      <span
+                        class="block px-4 py-2 cursor-pointer text-xs text-gray-700 hover:bg-indigo-600 hover:text-white"
+                        @click="action({ action: option.id, id: item.id })"
+                        ><v-icon :name="option.icon" />{{ option.name }}</span
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </Dropdown>
             </td>
           </tr>
         </tbody>

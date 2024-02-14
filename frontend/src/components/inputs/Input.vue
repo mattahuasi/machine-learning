@@ -1,6 +1,4 @@
 <script setup>
-import { integer } from "@vuelidate/validators";
-
 defineEmits(["update:modelValue", "blur"]);
 const props = defineProps({
   id: {

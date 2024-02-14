@@ -74,6 +74,6 @@ onMounted(() => {
 <template>
   <card-data title="Entradas" icon="fa-sign-in-alt">
     <template v-slot:filters> </template>
-    <data-table :items="itemsDisplay" :columns="columns"> </data-table>
+    <DataTable :columns="columns" :items="itemsDisplay" :options="options" />
   </card-data>
 </template>

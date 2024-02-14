@@ -73,6 +73,6 @@ onMounted(() => {
 <template>
   <card-data title="Salidas">
     <template v-slot:filters> </template>
-    <data-table :items="itemsDisplay" :columns="columns"> </data-table>
+    <DataTable :columns="columns" :items="itemsDisplay" :options="options" />
   </card-data>
 </template>

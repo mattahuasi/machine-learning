@@ -72,6 +72,11 @@ onMounted(() => {
     <template v-slot:filters>
       <button-add to="/new/roles">Agregar Rol</button-add>
     </template>
-    <data-table :items="itemsDisplay" :columns="columns"> </data-table>
+    <DataTable
+      :columns="columns"
+      :items="itemsDisplay"
+      :options="options"
+      @action="action"
+    />
   </card-data>
 </template>

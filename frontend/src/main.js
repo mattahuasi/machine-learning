@@ -18,8 +18,7 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(router);
 app.use(Vue3Toasity, {
-  autoClose: 3000,
-  // ...
+  autoClose: 5000,
 });
 app.component("v-icon", OhVueIcon);
 

@@ -19,7 +19,7 @@ const show = ref(false);
   >
     <v-icon
       :name="icon"
-      class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-gray-200 dark:group-hover:text-gray-200"
+      class="flex-shrink-0 w-5 h-5 transition duration-75 group-hover:text-gray-200"
     />
     <span class="flex-1 ml-3 text-left whitespace-nowrap">{{ name }}</span>
     <v-icon

@@ -176,6 +176,12 @@ onMounted(async () => {
     <template v-slot:filters
       ><button-add to="/new/employees">Agregar empleado</button-add></template
     >
-    <data-table :columns="columns" :items="itemsDisplay"></data-table
-  ></card-data>
+    <DataTable
+      :columns="columns"
+      :items="itemsDisplay"
+      :options="options"
+      @action="action"
+    />
+    ></card-data
+  >
 </template>
