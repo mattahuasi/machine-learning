@@ -182,6 +182,6 @@ onMounted(async () => {
       :options="options"
       @action="action"
     />
-    ></card-data
+    </card-data
   >
 </template>
