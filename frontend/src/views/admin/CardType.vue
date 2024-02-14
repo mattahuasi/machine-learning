@@ -6,6 +6,7 @@ import { getCardTypesRequest, deleteCardTypeRequest } from "@/api/cardType";
 import ButtonAdd from "@/components/buttons/ButtonAdd.vue";
 import CardData from "@/components/cards/CardData.vue";
 import DataTable from "@/components/tables/DataTable.vue";
+import Search from "@/components/inputs/Search.vue";
 
 const router = useRouter();
 const items = ref([]);
@@ -88,7 +89,10 @@ onMounted(() => {
 <template>
   <card-data title="Tipos de Tarjetas">
     <template v-slot:filters>
-      <button-add to="/new/card-types">Agregar Tipo de Tarjeta</button-add>
+      <div class="flex flex-col justify-between md:flex-row gap-2 w-full">
+        <Search v-model="searchQuery" />
+        <button-add to="/new/card-types">Agregar Tipo de Tarjeta</button-add>
+      </div>
     </template>
     <DataTable
       :columns="columns"

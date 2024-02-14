@@ -1,17 +1,17 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { toast } from "vue3-toastify";
 import { getTurnstilesRequest } from "@/api/turnstile";
-import DataTable from "@/components/tables/DataTable.vue";
 import ButtonAdd from "@/components/buttons/ButtonAdd.vue";
 import CardData from "@/components/cards/CardData.vue";
+import DataTable from "@/components/tables/DataTable.vue";
+import Search from "@/components/inputs/Search.vue";
 
 const router = useRouter();
 const items = ref([]);
 const itemsDisplay = ref([]);
 const searchQuery = ref("");
-const load = ref(true);
 const columns = ref([
   { key: "id", label: "ID" },
   { key: "name", label: "Nombre" },
@@ -27,12 +27,10 @@ const options = ref([
 ]);
 
 async function loadData() {
-  load.value = true;
   try {
     const res = await getTurnstilesRequest();
     items.value = res.data;
     itemsDisplay.value = items.value;
-    load.value = false;
   } catch (error) {
     toast.error(
       "Se produjo un error al cargar los datos. Por favor, inténtalo de nuevo."
@@ -69,7 +67,10 @@ onMounted(() => {
 <template>
   <card-data title="Molinetes">
     <template v-slot:filters>
-      <button-add to="/new/turnstiles">Agregar Molinete</button-add>
+      <div class="flex flex-col justify-between md:flex-row gap-2 w-full">
+        <Search v-model="searchQuery" />
+        <button-add to="/new/turnstiles">Agregar Molinete</button-add>
+      </div>
     </template>
     <DataTable
       :columns="columns"

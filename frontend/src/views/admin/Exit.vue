@@ -1,12 +1,11 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
-import { useRouter } from "vue-router";
+import { onMounted, ref, watch } from "vue";
 import { toast } from "vue3-toastify";
 import { getExitsRequest } from "@/api/entry";
-import DataTable from "@/components/tables/DataTable.vue";
 import CardData from "@/components/cards/CardData.vue";
+import DataTable from "@/components/tables/DataTable.vue";
+import Search from "@/components/inputs/Search.vue";
 
-const router = useRouter();
 const items = ref([]);
 const itemsDisplay = ref([]);
 const searchQuery = ref("");
@@ -20,7 +19,6 @@ const final = ref(
     .toISOString()
     .slice(0, 10)
 );
-const load = ref(true);
 const columns = ref([
   { key: "id", label: "ID" },
   { key: "fullName", label: "Nombre completo" },
@@ -32,12 +30,10 @@ const columns = ref([
 const options = ref([]);
 
 async function loadData() {
-  load.value = true;
   try {
     const res = await getExitsRequest(init.value, final.value);
     items.value = res.data;
     itemsDisplay.value = items.value;
-    load.value = false;
   } catch (error) {
     toast.error(
       "Se produjo un error al cargar los datos. Por favor, inténtalo de nuevo."
@@ -72,7 +68,11 @@ onMounted(() => {
 
 <template>
   <card-data title="Salidas">
-    <template v-slot:filters> </template>
+    <template v-slot:filters>
+      <div class="flex flex-col justify-between md:flex-row gap-2 w-full">
+        <Search v-model="searchQuery" />
+        <div class="flex flex-row gap-1 sm:flex-row"></div></div
+    ></template>
     <DataTable :columns="columns" :items="itemsDisplay" :options="options" />
   </card-data>
 </template>

@@ -1,19 +1,20 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { toast } from "vue3-toastify";
-import { useProfileStore } from "@/stores/profile";
+import { disconnectCardEmployeeRequest } from "@/api/card";
 import {
-  getEmployeesStaffRequest,
   getEmployeesAdminRequest,
+  getEmployeesStaffRequest,
   updateStatusEmployeeRequest,
   deleteEmployeeRequest,
 } from "@/api/employee";
 import { getRolesRequest } from "@/api/role";
-import { disconnectCardEmployeeRequest } from "@/api/card";
+import { useProfileStore } from "@/stores/profile";
 import ButtonAdd from "@/components/buttons/ButtonAdd.vue";
 import CardData from "@/components/cards/CardData.vue";
 import DataTable from "@/components/tables/DataTable.vue";
+import Search from "@/components/inputs/Search.vue";
 
 const profileStore = useProfileStore();
 const router = useRouter();
@@ -24,7 +25,6 @@ const searchQuery = ref("");
 const inside = ref("all");
 const role = ref("all");
 const status = ref("all");
-const load = ref(true);
 const columns = ref([
   { key: "id", label: "ID" },
   { key: "firstName", label: "Nombre/s" },
@@ -38,14 +38,12 @@ const options = ref([]);
 const arrayIds = ref([]);
 
 async function loadData() {
-  load.value = true;
   try {
     let res;
     if (profileStore.isAdmin) res = await getEmployeesAdminRequest();
     else res = await getEmployeesStaffRequest();
     items.value = res.data;
     itemsDisplay.value = items.value;
-    load.value = false;
   } catch (error) {
     toast.error(
       "Se produjo un error al cargar los datos. Por favor, inténtalo de nuevo."
@@ -56,12 +54,15 @@ async function loadData() {
 watch(searchQuery, () => {
   searchItems();
 });
+
 watch(inside, () => {
   searchItems();
 });
+
 watch(role, () => {
   searchItems();
 });
+
 watch(status, () => {
   searchItems();
 });
@@ -84,12 +85,8 @@ async function handleRowClick() {
 function searchItems(event) {
   const filteredItems = items.value.filter(
     (item) =>
-      (item.first_name
-        .toLowerCase()
-        .includes(searchQuery.value.toLowerCase()) ||
-        item.last_name
-          .toLowerCase()
-          .includes(searchQuery.value.toLowerCase()) ||
+      (item.firstName.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        item.lastName.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
         item.ci.toLowerCase().includes(searchQuery.value.toLowerCase())) &&
       (inside.value === "all" || item.inside.toString() === inside.value) &&
       (role.value === "all" || item.role === role.value) &&
@@ -165,7 +162,29 @@ onMounted(async () => {
 <template>
   <card-data title="Empleados">
     <template v-slot:filters>
-      <button-add to="/new/employees"> Agregar empleado </button-add>
+      <div class="flex flex-col justify-between md:flex-row gap-2 w-full">
+        <Search v-model="searchQuery" />
+        <div class="flex flex-row gap-1 sm:flex-row">
+          <select
+            v-model="status"
+            class="block w-full h-full px-4 py-2 pr-8 leading-tight text-sm text-gray-500 bg-white border-gray-300 rounded-md appearance-none focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+          >
+            <option value="all" selected>Estado</option>
+            <option value="1">Habilitado</option>
+            <option value="2">Deshabilitado</option>
+          </select>
+          <select
+            v-model="role"
+            class="block w-full h-full px-4 py-2 pr-8 leading-tight text-sm text-gray-500 bg-white border-gray-300 rounded-md appearance-none focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+          >
+            <option value="all" selected>Rol</option>
+            <option v-for="role in roles" :key="role.id" :value="role.name">
+              {{ role.name }}
+            </option>
+          </select>
+        </div>
+        <button-add to="/new/employees">Agregar empleado</button-add>
+      </div>
     </template>
     <DataTable
       :columns="columns"

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { toast } from "vue3-toastify";
 import {
@@ -7,15 +7,15 @@ import {
   deleteCardRequest,
   disconnectCardRequest,
 } from "@/api/card";
-import DataTable from "@/components/tables/DataTable.vue";
 import ButtonAdd from "@/components/buttons/ButtonAdd.vue";
 import CardData from "@/components/cards/CardData.vue";
+import DataTable from "@/components/tables/DataTable.vue";
+import Search from "@/components/inputs/Search.vue";
 
 const router = useRouter();
 const items = ref([]);
 const itemsDisplay = ref([]);
 const searchQuery = ref("");
-const load = ref(true);
 const columns = ref([
   { key: "id", label: "ID" },
   { key: "type", label: "Tipo de tarjeta" },
@@ -26,7 +26,6 @@ const columns = ref([
   { key: "connect", label: "Vinculada", check: true },
   { key: "createdAt", label: "Creado", date: true },
 ]);
-
 const options = ref([
   {
     id: "update",
@@ -46,12 +45,10 @@ const options = ref([
 ]);
 
 async function loadData() {
-  load.value = true;
   try {
     const res = await getCardsRequest();
     items.value = res.data;
     itemsDisplay.value = items.value;
-    load.value = false;
   } catch (error) {
     toast.error(
       "Se produjo un error al cargar los datos. Por favor, inténtalo de nuevo."
@@ -111,7 +108,10 @@ onMounted(() => {
 <template>
   <card-data title="Tarjetas">
     <template v-slot:filters>
-      <button-add to="/new/cards">Agregar tarjeta</button-add>
+      <div class="flex flex-col justify-between md:flex-row gap-2 w-full">
+        <Search v-model="searchQuery" />
+        <button-add to="/new/cards">Agregar tarjeta</button-add>
+      </div>
     </template>
     <DataTable
       :columns="columns"

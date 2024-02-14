@@ -1,17 +1,17 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { toast } from "vue3-toastify";
 import { getTimeTablesRequest } from "@/api/timeTable";
-import DataTable from "@/components/tables/DataTable.vue";
 import ButtonAdd from "@/components/buttons/ButtonAdd.vue";
 import CardData from "@/components/cards/CardData.vue";
+import DataTable from "@/components/tables/DataTable.vue";
+import Search from "@/components/inputs/Search.vue";
 
 const router = useRouter();
 const items = ref([]);
 const itemsDisplay = ref([]);
 const searchQuery = ref("");
-const load = ref(true);
 const columns = ref([
   { key: "id", label: "ID" },
   { key: "title", label: "Nombre" },
@@ -27,12 +27,10 @@ const options = ref([
 ]);
 
 async function loadData() {
-  load.value = true;
   try {
     const res = await getTimeTablesRequest();
     items.value = res.data;
     itemsDisplay.value = items.value;
-    load.value = false;
   } catch (error) {
     toast.error(
       "Se produjo un error al cargar los datos. Por favor, inténtalo de nuevo."
@@ -69,8 +67,11 @@ onMounted(() => {
 <template>
   <card-data title="Horarios">
     <template v-slot:filters>
-      <button-add to="/new/time-tables">Crear horario</button-add>
-    </template>
+      <div class="flex flex-col justify-between md:flex-row gap-2 w-full">
+        <Search v-model="searchQuery" />
+        <button-add to="/new/time-tables">Crear horario</button-add>
+      </div></template
+    >
     <DataTable
       :columns="columns"
       :items="itemsDisplay"
