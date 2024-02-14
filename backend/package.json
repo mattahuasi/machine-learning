@@ -8,7 +8,8 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "token:generate": "node src/utils/generateTokenSecret.js",
-    "create:user": "node src/utils/createUser.js"
+    "create:user": "node src/utils/createUser.js",
+    "seed": "node src/database/seedDatabase.js"
   },
   "keywords": [],
   "author": "",
