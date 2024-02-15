@@ -120,28 +120,28 @@ onMounted(async () => {
         label-text="Nombre/s"
         v-model="userData.firstName"
         type="text"
-        disabled="true"
+        disabled
       />
       <Input
         id="lastName"
         label-text="Nombre/s"
         v-model="userData.lastName"
         type="text"
-        disabled="true"
+        disabled
       />
       <Input
         id="email"
         label-text="Correo electrónico"
         v-model="userData.email"
         type="email"
-        disabled="true"
+        disabled
       />
       <Select
         id="role"
         label-text="Rol"
         v-model="userData.roleId"
         :options="roles"
-        disabled="true"
+        disabled
       />
       <Select
         id="type"

@@ -1,6 +1,6 @@
 import "dotenv/config";
 import app from "./app.js";
-import mqttHandler from "./utils/mqttHandler.js";
+import mqttHandler from "./libs/mqttHandler.js";
 import { sequelize } from "./database/database.js";
 import "./models/Absence.js";
 import "./models/Card.js";

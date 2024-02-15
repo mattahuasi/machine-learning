@@ -21,7 +21,7 @@ const props = defineProps({
 });
 
 const currentPage = ref(1);
-const itemsPerPage = ref(25);
+const itemsPerPage = ref(10);
 const totalPages = computed(() => {
   return Math.ceil(props.items.length / itemsPerPage.value);
 });
@@ -149,17 +149,19 @@ function action(data) {
   >
     <p class="text-gray-500 text-center">No hay datos para mostrar.</p>
   </div>
-  <div
+  <nav
     v-else
-    class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between"
+    class="flex flex-wrap items-center lg:flex-row justify-center lg:justify-between gap-2 p-5"
   >
-    <span class="text-xs text-gray-900 xs:text-sm"
-      >Página
-      <span class="font-bold">{{ currentPage }}</span>
-      de
-      <span class="font-bold">{{ totalPages }}</span></span
-    >
-    <div class="inline-flex mt-2 xs:mt-0">
+    <div>
+      <span class="text-sm text-gray-900"
+        >Página
+        <span class="font-semibold">{{ currentPage }}</span>
+        de
+        <span class="font-semibold">{{ totalPages }}</span></span
+      >
+    </div>
+    <div>
       <button
         class="px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-300 rounded-l hover:bg-gray-400"
         @click="currentPage--"
@@ -177,5 +179,22 @@ function action(data) {
         Siguiente
       </button>
     </div>
-  </div>
+    <div>
+      <label for="itemsPerPage" class="text-sm text-semibold text-gray-900 mr-2"
+        >Filas por pagina</label
+      >
+      <select
+        name="itemsPerPage"
+        v-model.number="itemsPerPage"
+        class="border-gray-200 rounded-md text-sm focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+      >
+        <option selected value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="150">150</option>
+        <option value="200">200</option>
+      </select>
+    </div>
+  </nav>
 </template>

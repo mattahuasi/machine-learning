@@ -21,6 +21,6 @@ export const disconnectCardRequest = (id) =>
   axios.delete("/cards/connect/" + id);
 
 export const disconnectCardEmployeeRequest = (id) =>
-  axios.delete("/cards/connect/employee/" + id);
+  axios.delete("/cards/connect/employees/" + id);
 
 export const deleteCardRequest = (id) => axios.delete("/cards/" + id);

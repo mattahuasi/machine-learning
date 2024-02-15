@@ -71,8 +71,8 @@ onMounted(() => {
     <template v-slot:filters>
       <div class="flex flex-col md:flex-row gap-2 w-full">
         <Search v-model="searchQuery" />
-        <div class="flex flex-row gap-2">
-          <div class="relative mt-1">
+        <div class="flex flex-row justify-center gap-2">
+          <div class="relative mt-4 lg:mt-1 w-full">
             <label
               class="text-xs text-gray-600 absolute top-0 left-2 transform translate-y-[-110%]"
             >
@@ -86,7 +86,7 @@ onMounted(() => {
               type="date"
             />
           </div>
-          <div class="relative mt-1">
+          <div class="relative mt-4 lg:mt-1 w-full">
             <label
               class="text-xs text-gray-600 absolute top-0 left-2 transform translate-y-[-110%]"
             >
