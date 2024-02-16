@@ -27,14 +27,7 @@ export const getEntriesExits = async (req, res) => {
       include: [
         {
           model: User,
-          attributes: [
-            "id",
-            "firstName",
-            "lastName",
-            "ci",
-            "address",
-            "phone",
-          ],
+          attributes: ["id", "firstName", "lastName", "ci", "address", "phone"],
           include: [{ model: Employee, include: [{ model: Role }] }],
         },
         {
@@ -46,7 +39,7 @@ export const getEntriesExits = async (req, res) => {
     const entriesModify = entries.map((entry) => ({
       id: entry.id,
       createdAt: entry.createdAt,
-      full_name: entry.user.firstName + " " + entry.user.lastName,
+      fullName: entry.user.firstName + " " + entry.user.lastName,
       ci: entry.user.ci,
       role: entry.user.employee.role.name,
       turnstile: entry.turnstile.name,
@@ -82,14 +75,7 @@ export const getEntries = async (req, res) => {
       include: [
         {
           model: User,
-          attributes: [
-            "id",
-            "firstName",
-            "lastName",
-            "ci",
-            "address",
-            "phone",
-          ],
+          attributes: ["id", "firstName", "lastName", "ci", "address", "phone"],
           include: [{ model: Employee, include: [{ model: Role }] }],
         },
         {
@@ -101,7 +87,7 @@ export const getEntries = async (req, res) => {
     const entriesModify = entries.map((entry) => ({
       id: entry.id,
       createdAt: entry.createdAt,
-      full_name: entry.user.firstName + " " + entry.user.lastName,
+      fullName: entry.user.firstName + " " + entry.user.lastName,
       ci: entry.user.ci,
       role: entry.user.employee.role.name,
       turnstile: entry.turnstile.name,
@@ -137,14 +123,7 @@ export const getExits = async (req, res) => {
       include: [
         {
           model: User,
-          attributes: [
-            "id",
-            "firstName",
-            "lastName",
-            "ci",
-            "address",
-            "phone",
-          ],
+          attributes: ["id", "firstName", "lastName", "ci", "address", "phone"],
           include: [{ model: Employee, include: [{ model: Role }] }],
         },
         {
@@ -156,7 +135,7 @@ export const getExits = async (req, res) => {
     const entriesModify = entries.map((entry) => ({
       id: entry.id,
       createdAt: entry.createdAt,
-      full_name: entry.user.firstName + " " + entry.user.lastName,
+      fullName: entry.user.firstName + " " + entry.user.lastName,
       ci: entry.user.ci,
       role: entry.user.employee.role.name,
       turnstile: entry.turnstile.name,
@@ -175,14 +154,7 @@ export const getUserEntry = async (req, res) => {
       include: [
         {
           model: User,
-          attributes: [
-            "id",
-            "firstName",
-            "lastName",
-            "ci",
-            "address",
-            "phone",
-          ],
+          attributes: ["id", "firstName", "lastName", "ci", "address", "phone"],
         },
         {
           model: Turnstile,
@@ -203,14 +175,7 @@ export const getEntry = async (req, res) => {
       include: [
         {
           model: User,
-          attributes: [
-            "id",
-            "firstName",
-            "lastName",
-            "ci",
-            "address",
-            "phone",
-          ],
+          attributes: ["id", "firstName", "lastName", "ci", "address", "phone"],
         },
         {
           model: Turnstile,
@@ -291,6 +256,7 @@ export const createEntryMQTT = async (rfid, turnstile, type) => {
     const response = type === "entry" ? "E" : "S";
     return response;
   } catch (error) {
-    return error;
+    console.log(error);
+    return "I";
   }
 };

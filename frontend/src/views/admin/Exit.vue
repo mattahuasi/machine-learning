@@ -54,7 +54,7 @@ watch(final, () => {
 function searchItems(event) {
   const filteredItems = items.value.filter(
     (item) =>
-      item.full_name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      item.fullName.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
       item.role.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
       item.ci.toLowerCase().includes(searchQuery.value.toLowerCase())
   );

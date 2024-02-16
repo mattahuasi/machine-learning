@@ -21,7 +21,7 @@ const final = ref(
 );
 const columns = ref([
   { key: "id", label: "ID" },
-  { key: "full_name", label: "Nombre completo" },
+  { key: "fullName", label: "Nombre completo" },
   { key: "ci", label: "CI" },
   { key: "role", label: "Rol" },
   { key: "turnstile", label: "Molinete" },
@@ -54,7 +54,7 @@ watch(final, () => {
 function searchItems(event) {
   const filteredItems = items.value.filter(
     (item) =>
-      item.full_name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      item.fullName.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
       item.role.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
       item.ci.toLowerCase().includes(searchQuery.value.toLowerCase())
   );
