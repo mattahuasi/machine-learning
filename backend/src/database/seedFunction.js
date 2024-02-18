@@ -1,15 +1,5 @@
+import { faker } from "@faker-js/faker";
 import bcrypt from "bcryptjs";
-import {
-  generateRandomCI,
-  generateRandomColor,
-  generateRandomEmail,
-  generateRandomFirstName,
-  generateRandomLastName,
-  generateRandomPhone,
-  generateRandomRFID,
-  generateRandomValue,
-  getRandomNumberUpToN,
-} from "./generateFunction.js";
 import { Card, CardType } from "../models/Card.js";
 import { Role } from "../models/Role.js";
 import { TimeTable } from "../models/TimeTable.js";
@@ -19,9 +9,9 @@ import { Employee, User } from "../models/User.js";
 export const seedCardTypes = async (n = 10) => {
   for (let i = 0; i < n; i++) {
     await CardType.create({
-      name: `Tipo ${i + 1}`,
-      color: generateRandomColor(),
-      description: `Descripción ${i + 1}`,
+      name: faker.word.words(),
+      color: faker.color.rgb(),
+      description: faker.lorem.sentence(),
     });
   }
 };
@@ -29,9 +19,9 @@ export const seedCardTypes = async (n = 10) => {
 export const seedCards = async (n = 10, nct = 10) => {
   for (let i = 0; i < n; i++) {
     await Card.create({
-      rfid: generateRandomRFID(),
-      description: `Descripción ${i + 1}`,
-      cardTypeId: getRandomNumberUpToN(nct),
+      rfid: faker.string.alphanumeric(8),
+      description: faker.lorem.sentence(),
+      cardTypeId: faker.number.int({ min: 1, max: nct }),
     });
   }
 };
@@ -39,34 +29,35 @@ export const seedCards = async (n = 10, nct = 10) => {
 export const seedRoles = async (n = 10) => {
   for (let i = 0; i < n; i++) {
     await Role.create({
-      name: `Rol ${i + 1}`,
-      description: `Descripción ${i + 1}`,
+      name: faker.person.jobTitle(),
+      description: faker.lorem.sentence(),
     });
   }
 };
 
 export const seedUsers = async (n = 10, nr = 10) => {
+  const passwordHash = await bcrypt.hash("password", 10);
   for (let i = 0; i < n; i++) {
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+    const ci = faker.number.int({ min: 10000000, max: 99999999 });
     const newUser = await User.create({
-      firstName: generateRandomFirstName(),
-      lastName: generateRandomLastName(),
-      ci: generateRandomCI(),
-      address: `Calle ${generateRandomLastName()} Nro. ${generateRandomValue(
-        1,
-        1000
-      )}`,
-      phone: generateRandomPhone(),
-      inside: false,
+      firstName: firstName,
+      lastName: lastName,
+      ci: ci,
+      address: faker.location.streetAddress(),
+      phone: faker.phone.number(),
+      inside: faker.datatype.boolean(),
     });
-    const passwordHash = await bcrypt.hash("password", 10);
+    const email = faker.internet.email({ firstName, lastName });
     await Employee.create({
-      email: generateRandomEmail(),
+      email: email,
       password: passwordHash,
-      status: 1,
-      staff: false,
-      admin: false,
-      roleId: getRandomNumberUpToN(nr),
+      staff: faker.datatype.boolean(),
+      admin: faker.datatype.boolean(),
+      status: faker.number.int({ min: 0, max: 1 }),
       userId: newUser.id,
+      roleId: faker.number.int({ min: 1, max: nr }),
     });
   }
 };
@@ -75,21 +66,45 @@ export const seedTimeTables = async (n = 10) => {
   for (let i = 0; i < n; i++) {
     n;
     await TimeTable.create({
-      title: `Horario ${i + 1}`,
-      description: `Descripción ${i + 1}`,
-      toleranceDelay: generateRandomValue(0, 60),
-      toleranceLack: generateRandomValue(0, 60),
-      toleranceOutput: generateRandomValue(0, 60),
-      earlyExit: generateRandomValue(0, 60),
-      punctuality: generateRandomValue(0, 60),
-      priority: generateRandomValue(0, 60),
+      title: faker.word.words(),
+      description: faker.lorem.sentence(),
+      toleranceDelay: faker.number.int({ min: 0, max: 60 }),
+      toleranceLack: faker.number.int({ min: 0, max: 60 }),
+      toleranceOutput: faker.number.int({ min: 0, max: 60 }),
+      earlyExit: faker.number.int({ min: 0, max: 60 }),
+      punctuality: faker.number.int({ min: 0, max: 60 }),
+      priority: faker.number.int({ min: 0, max: 60 }),
       schedule: {
-        Monday: { entry: "09:00", exit: "17:00", enable: true },
-        Tuesday: { entry: "09:00", exit: "17:00", enable: true },
-        Wednesday: { entry: "09:00", exit: "17:00", enable: true },
-        Thursday: { entry: "09:00", exit: "17:00", enable: true },
-        Friday: { entry: "09:00", exit: "17:00", enable: true },
-        Saturday: { entry: "09:00", exit: "12:30", enable: false },
+        Monday: {
+          entry: "09:00",
+          exit: "17:00",
+          enable: faker.datatype.boolean(),
+        },
+        Tuesday: {
+          entry: "09:00",
+          exit: "17:00",
+          enable: faker.datatype.boolean(),
+        },
+        Wednesday: {
+          entry: "09:00",
+          exit: "17:00",
+          enable: faker.datatype.boolean(),
+        },
+        Thursday: {
+          entry: "09:00",
+          exit: "17:00",
+          enable: faker.datatype.boolean(),
+        },
+        Friday: {
+          entry: "09:00",
+          exit: "17:00",
+          enable: faker.datatype.boolean(),
+        },
+        Saturday: {
+          entry: "09:00",
+          exit: "17:00",
+          enable: faker.datatype.boolean(),
+        },
       },
     });
   }
@@ -98,8 +113,8 @@ export const seedTimeTables = async (n = 10) => {
 export const seedTurnstiles = async (n = 10) => {
   for (let i = 0; i < n; i++) {
     await Turnstile.create({
-      name: `Molino ${i + 1}`,
-      description: `Descripción ${i + 1}`,
+      name: faker.word.words(),
+      description: faker.location.streetAddress(),
     });
   }
 };

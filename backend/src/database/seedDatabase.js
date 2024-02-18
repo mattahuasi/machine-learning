@@ -9,11 +9,11 @@ import {
 
 async function seedDatabase(callback) {
   await seedCardTypes(20);
-  await seedCards(20, 20);
-  await seedRoles(20);
-  await seedUsers(50, 20);
-  await seedTimeTables(20);
-  await seedTurnstiles(20);
+  await seedCards(30, 20);
+  await seedRoles(15);
+  await seedUsers(75, 15);
+  await seedTimeTables(10);
+  await seedTurnstiles(5);
 
   if (callback && typeof callback === "function") {
     callback();
