@@ -14,10 +14,12 @@ import { useProfileStore } from "@/stores/profile";
 import ButtonAdd from "@/components/buttons/ButtonAdd.vue";
 import CardData from "@/components/cards/CardData.vue";
 import DataTable from "@/components/tables/DataTable.vue";
+import ModalConfirm from "@/components/modals/ModalConfirm.vue";
 import Search from "@/components/inputs/Search.vue";
 
 const profileStore = useProfileStore();
 const router = useRouter();
+const show = ref(false);
 const items = ref([]);
 const roles = ref([]);
 const itemsDisplay = ref([]);
@@ -127,7 +129,8 @@ async function action(action) {
     }
   } else if (action.action === "delete") {
     try {
-      await deleteEmployeeRequest(action.id);
+      // await deleteEmployeeRequest(action.id);
+      show.value = true;
       items.value = [];
       loadData();
       toast.success("¡Empleado eliminada exitosamente!");
@@ -214,4 +217,10 @@ onMounted(async () => {
       @action="action"
     />
   </card-data>
+  <ModalConfirm
+    title="¿Eliminar empleado?"
+    v-model="show"
+    @close="() => (show = false)"
+    @confirm="() => confirm()"
+  >{{  }}</ModalConfirm>
 </template>
