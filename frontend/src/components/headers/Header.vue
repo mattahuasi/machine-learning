@@ -1,8 +1,10 @@
 <script setup>
+import { useProfileStore } from "@/stores/profile";
+import { useSidebar } from "@/utils/useSidebar";
 import Avatar from "@/components/avatars/Avatar.vue";
 import Bell from "@/components/notifications/Bell.vue";
-import { useSidebar } from "@/utils/useSidebar";
 
+const useProfile = useProfileStore();
 const { isOpen } = useSidebar();
 </script>
 
@@ -31,7 +33,10 @@ const { isOpen } = useSidebar();
         </svg>
       </button>
     </div>
-    <div class="flex items-center">
+    <div class="flex items-center justify-between">
+      <div class="text-gray-700 text-sm hidden md:block">
+        Bienvenido: <span class="font-semibold">{{ useProfile.fullName }}</span>
+      </div>
       <Bell />
       <Avatar />
     </div>

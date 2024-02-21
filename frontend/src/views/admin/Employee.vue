@@ -129,8 +129,8 @@ async function action(action) {
     }
   } else if (action.action === "delete") {
     try {
-      // await deleteEmployeeRequest(action.id);
-      show.value = true;
+      await deleteEmployeeRequest(action.id);
+      // show.value = true;
       items.value = [];
       loadData();
       toast.success("¡Empleado eliminada exitosamente!");

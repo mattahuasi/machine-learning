@@ -36,9 +36,15 @@ async function logout() {
         v-show="dropdownOpen"
         class="absolute right-0 z-20 w-48 py-2 mt-2 bg-white rounded-md shadow-xl"
       >
-        <span class="block px-4 py-2 text-sm text-gray-700 border-b">{{
-          profileStore.fullName
-        }}</span>
+        <div class="px-4 py-2 text-sm md:hidden text-gray-700 border-b">
+          Bienvenido:
+          <span class="block text-xs font-semibold">{{
+            profileStore.fullName
+          }}</span>
+        </div>
+        <span class="px-4 py-2 text-sm text-gray-700 border-b hidden md:block"
+          >Acciones</span
+        >
         <router-link
           to="/update/profile"
           class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white"
