@@ -250,7 +250,7 @@ export const createPdf = async (title = "PDF Title", author = "PDF Author") => {
       borderWidth: 1,
       borderColor: rgb(0, 0, 0),
     });
-    page.drawText((i + 1).toString(), {
+    page.drawText("", {
       x: labelTextX,
       y: labelTextY,
       color: rgb(0, 0, 0),
@@ -274,7 +274,7 @@ export const createPdf = async (title = "PDF Title", author = "PDF Author") => {
       borderWidth: 1,
       borderColor: rgb(0, 0, 0),
     });
-    page.drawText((i + 1).toString(), {
+    page.drawText("", {
       x: labelTextX,
       y: labelTextY,
       color: rgb(0, 0, 0),
