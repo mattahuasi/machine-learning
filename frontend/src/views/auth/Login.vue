@@ -94,7 +94,7 @@ function notification() {
                 class="text-indigo-600 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                 type="checkbox"
               />
-              <span class="mx-2 text-sm text-gray-600">Recuérdate</span>
+              <span class="mx-2 text-sm text-gray-600">Recuérdame</span>
             </label>
           </div>
           <div>

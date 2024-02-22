@@ -2,6 +2,7 @@
 import { onMounted, ref, watch } from "vue";
 import { toast } from "vue3-toastify";
 import { getEntriesRequest } from "@/api/entry";
+import Download from "@/components/buttons/ButtonDownload.vue";
 import CardData from "@/components/cards/CardData.vue";
 import DataTable from "@/components/tables/DataTable.vue";
 import Search from "@/components/inputs/Search.vue";
@@ -69,7 +70,7 @@ onMounted(() => {
 <template>
   <card-data title="Entradas" icon="fa-sign-in-alt">
     <template v-slot:filters>
-      <div class="flex flex-col justify-between md:flex-row gap-2">
+      <div class="flex flex-col justify-between md:flex-row gap-2 w-full">
         <Search v-model="searchQuery" />
         <div class="flex flex-row justify-center gap-2">
           <div class="relative mt-4 lg:mt-1 w-full">
@@ -101,6 +102,7 @@ onMounted(() => {
             />
           </div>
         </div>
+        <Download />
       </div>
     </template>
     <DataTable :columns="columns" :items="itemsDisplay" :options="options" />

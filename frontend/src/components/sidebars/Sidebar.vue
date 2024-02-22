@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { useSidebar } from "@/utils/useSidebar";
+import { useSidebar } from "@/composables/useSidebar";
 import Anchor from "@/components/anchors/Anchor.vue";
 import AnchorAccordion from "@/components/anchors/AnchorAccordion.vue";
 import Logo from "@/components/branding/Logo.vue";

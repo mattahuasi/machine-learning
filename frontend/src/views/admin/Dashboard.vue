@@ -7,7 +7,7 @@ import {
   getTotalRequest,
   getCardsRequest,
 } from "@/api/stat";
-import { dateFormat } from "@/utils/dateFormatter";
+import { dateFormat } from "@/utils/date";
 import CardPieChart from "@/components/cards/CardPieChart.vue";
 import CardStat from "@/components/cards/CardStat.vue";
 

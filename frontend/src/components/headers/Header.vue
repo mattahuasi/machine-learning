@@ -1,6 +1,6 @@
 <script setup>
 import { useProfileStore } from "@/stores/profile";
-import { useSidebar } from "@/utils/useSidebar";
+import { useSidebar } from "@/composables/useSidebar";
 import Avatar from "@/components/avatars/Avatar.vue";
 import Bell from "@/components/notifications/Bell.vue";
 
