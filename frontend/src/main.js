@@ -1,5 +1,6 @@
 import "./assets/main.css";
 import "vue3-toastify/dist/index.css";
+import "vue-final-modal/style.css";
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import { OhVueIcon, addIcons } from "oh-vue-icons";

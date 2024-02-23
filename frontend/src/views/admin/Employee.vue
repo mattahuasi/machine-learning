@@ -1,15 +1,16 @@
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { onMounted, reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { toast } from "vue3-toastify";
 import { disconnectCardEmployeeRequest } from "@/api/card";
 import {
   getEmployeesAdminRequest,
   getEmployeesStaffRequest,
+  getEmployeeRequest,
   deleteEmployeeRequest,
   updateStatusEmployeeRequest,
 } from "@/api/employee";
-import { getRolesRequest } from "@/api/role";
+import { getRolesRequest, getRoleRequest } from "@/api/role";
 import { useProfileStore } from "@/stores/profile";
 import ButtonAdd from "@/components/buttons/ButtonAdd.vue";
 import CardData from "@/components/cards/CardData.vue";
@@ -20,6 +21,19 @@ import Search from "@/components/inputs/Search.vue";
 const profileStore = useProfileStore();
 const router = useRouter();
 const show = ref(false);
+const employeeDelete = reactive({
+  fullName: "",
+  role: "",
+  status: "",
+  staff: {
+    icon: "",
+    color: "",
+  },
+  admin: {
+    icon: "",
+    color: "",
+  },
+});
 const items = ref([]);
 const roles = ref([]);
 const itemsDisplay = ref([]);
@@ -129,8 +143,27 @@ async function action(action) {
     }
   } else if (action.action === "delete") {
     try {
-      await deleteEmployeeRequest(action.id);
-      // show.value = true;
+      show.value = true;
+      const employee = await getEmployeeRequest(action.id);
+      const role = await getRoleRequest(employee.data.roleId);
+      employeeDelete.fullName =
+        employee.data.firstName + " " + employee.data.lastName;
+      employeeDelete.role = role.data.name;
+      employeeDelete.status =
+        employee.data.status === "1" ? "Habilitado" : "Deshabilitado";
+      employeeDelete.staff.icon = employee.data.staff
+        ? "hi-solid-check-circle"
+        : "hi-solid-x-circle";
+      employeeDelete.staff.color = employee.data.staff
+        ? "text-green-600"
+        : "text-red-600";
+      employeeDelete.admin.icon = employee.data.admin
+        ? "hi-solid-check-circle"
+        : "hi-solid-x-circle";
+      employeeDelete.admin.color = employee.data.admin
+        ? "text-green-600"
+        : "text-red-600";
+      // await deleteEmployeeRequest(action.id);
       items.value = [];
       loadData();
       toast.success("¡Empleado eliminada exitosamente!");
@@ -222,5 +255,43 @@ onMounted(async () => {
     v-model="show"
     @close="() => (show = false)"
     @confirm="() => confirm()"
-  >{{  }}</ModalConfirm>
+  >
+    <div class="w-full mb-2 border-b border-gray-300">
+      <h6 class="font-semibold border-b text-red-500 border-b-gray-300">
+        Este empleado sera eliminado
+      </h6>
+      <div class="text-sm m-2">
+        <p class="">
+          Nombre completo:
+          <span class="text-base font-semibold">{{
+            employeeDelete.fullName
+          }}</span>
+        </p>
+        <p class="">
+          Rol:
+          <span class="text-base font-semibold">{{ employeeDelete.role }}</span>
+        </p>
+        <div class="flex justify-between">
+          <p class="">
+            Estado:
+            <span class="text-base font-semibold">{{
+              employeeDelete.status
+            }}</span>
+          </p>
+          <p>
+            Staff:
+            <span class="text-base" :class="employeeDelete.staff.color"
+              ><v-icon :name="employeeDelete.staff.icon"></v-icon
+            ></span>
+          </p>
+          <p>
+            Administrador:
+            <span class="text-base" :class="employeeDelete.admin.color"
+              ><v-icon :name="employeeDelete.admin.icon"></v-icon
+            ></span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </ModalConfirm>
 </template>
