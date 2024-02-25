@@ -1,59 +1,115 @@
 <script setup>
-import "v-calendar/style.css";
-import { ref } from "vue";
-import { Calendar, DatePicker } from "v-calendar";
-import { useScreens } from "vue-screen-utils";
+import { computed, reactive, ref } from "vue";
+import FullCalendar from "@fullcalendar/vue3";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import CardData from "@/components/cards/CardData.vue";
 
-const date = ref(new Date());
-const { mapCurrent } = useScreens({
-  xs: "0px",
-  sm: "640px",
-  md: "768px",
-  lg: "1024px",
-});
-const columns = mapCurrent({ lg: 1 }, 1);
-const expanded = mapCurrent({ lg: true }, true);
-
-const attrs = ref([
-  {
-    highlight: true,
-    dates: new Date(),
+const currentEvents = ref([]);
+const calendarOptions = reactive({
+  plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+  locale: "es",
+  headerToolbar: {
+    left: "prev,next today",
+    center: "title",
   },
-]);
-const calendar = ref(null);
+  initialView: "dayGridMonth",
+  editable: false,
+  selectable: true,
+  selectMirror: true,
+  dayMaxEvents: true,
+  select: handleDateSelect,
+  eventClick: handleEventClick,
+  eventsSet: handleEvents,
+  /* you can update a remote database when these fire:
+  eventAdd:
+  eventChange:
+  eventRemove:
+  */
+});
+const employees = ref([]);
+const absenceTypes = ref([]);
 
-function moveToday() {
-  calendar.value.move(new Date());
+const employeeData = computed(() => {
+  return employees.value.map((employee) => {
+    return {
+      id: employee.id,
+      fullName: `${employee.first_name} ${employee.last_name}`,
+      role: employee.role,
+      ci: employee.ci,
+    };
+  });
+});
+
+const formData = reactive({
+  start: new Date(),
+  end: new Date(),
+  detail: "",
+  absenceTypeId: 0,
+  employeeId: 0,
+});
+
+function handleDateSelect(selectInfo) {
+  show.value = true;
+  /*let title = prompt("Please enter a new title for your event");
+  let calendarApi = selectInfo.view.calendar;
+  calendarApi.unselect(); // clear date selection
+  if (title) {
+    calendarApi.addEvent({
+      id: createEventId(),
+      title,
+      start: selectInfo.startStr,
+      end: selectInfo.endStr,
+      allDay: selectInfo.allDay,
+    });
+  }*/
+}
+
+function handleEventClick(clickInfo) {
+  if (
+    confirm(
+      `Are you sure you want to delete the event '${clickInfo.event.title}'`
+    )
+  ) {
+    clickInfo.event.remove();
+  }
+}
+function handleEvents(events) {
+  currentEvents.val = events;
 }
 </script>
 
 <template>
   <card-data title="Vacaciones">
     <template v-slot:filters> </template>
-    <div>
-      <DatePicker
-        v-model="date"
-        mode="dateTime"
-        ref="calendar"
-        color="blue"
-        show-weeknumbers
-        trim-weeks
-        :attributes="attrs"
-        :columns="columns"
-        :expanded="expanded"
-      >
-        <template #footer>
-          <div class="w-full px-4 pb-3">
-            <button
-              class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold w-full px-3 py-1 rounded-md"
-              @click="moveToday"
-            >
-              Today
-            </button>
-          </div>
-        </template>
-      </DatePicker>
+    <div class="demo-app">
+      <div class="demo-app-main">
+        <FullCalendar class="demo-app-calendar" :options="calendarOptions">
+          <template v-slot:eventContent="arg">
+            <b>{{ arg.timeText }}</b>
+            <i>{{ arg.event.title }}</i>
+          </template>
+        </FullCalendar>
+      </div>
     </div>
   </card-data>
 </template>
+
+<style lang="css">
+.demo-app {
+  display: flex;
+  min-height: 100%;
+  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+.demo-app-sidebar-section {
+  padding: 2em;
+}
+
+.demo-app-main {
+  flex-grow: 1;
+  padding: 3em;
+}
+</style>

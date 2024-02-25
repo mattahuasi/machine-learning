@@ -10,6 +10,11 @@
     "test:unit": "vitest"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.11",
+    "@fullcalendar/daygrid": "^6.1.11",
+    "@fullcalendar/interaction": "^6.1.11",
+    "@fullcalendar/timegrid": "^6.1.11",
+    "@fullcalendar/vue3": "^6.1.11",
     "@popperjs/core": "^2.11.8",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.7",
@@ -22,7 +27,6 @@
     "oh-vue-icons": "^1.0.0-rc3",
     "pdf-lib": "^1.17.1",
     "pinia": "^2.1.7",
-    "v-calendar": "^3.1.2",
     "vue": "^3.4.15",
     "vue-final-modal": "^4.5.4",
     "vue-router": "^4.2.5",
