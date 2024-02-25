@@ -6,7 +6,6 @@ import { disconnectCardEmployeeRequest } from "@/api/card";
 import {
   getEmployeesAdminRequest,
   getEmployeesStaffRequest,
-  getEmployeeRequest,
   deleteEmployeeRequest,
   updateStatusEmployeeRequest,
 } from "@/api/employee";
@@ -20,20 +19,6 @@ import Search from "@/components/inputs/Search.vue";
 
 const profileStore = useProfileStore();
 const router = useRouter();
-const show = ref(false);
-const employeeDelete = reactive({
-  fullName: "",
-  role: "",
-  status: "",
-  staff: {
-    icon: "",
-    color: "",
-  },
-  admin: {
-    icon: "",
-    color: "",
-  },
-});
 const items = ref([]);
 const roles = ref([]);
 const itemsDisplay = ref([]);
@@ -54,32 +39,23 @@ const columns = ref([
   { key: "createdAt", label: "Creado", date: true },
 ]);
 const options = ref([
-  {
-    id: "update",
-    name: "Actualizar",
-    icon: "hi-solid-pencil",
-  },
+  { id: "update", name: "Actualizar", icon: "hi-solid-pencil" },
   {
     id: "changeStatus",
     name: "Cambiar estado de usuario",
     icon: "hi-solid-switch-horizontal",
   },
-  {
-    id: "connect",
-    name: "Vincular tarjeta",
-    icon: "hi-solid-status-online",
-  },
+  { id: "connect", name: "Vincular tarjeta", icon: "hi-solid-status-online" },
   {
     id: "disconnect",
     name: "Desvincular tarjeta",
     icon: "hi-solid-status-offline",
   },
-  {
-    id: "delete",
-    name: "Eliminar",
-    icon: "hi-solid-exclamation",
-  },
+  { id: "delete", name: "Eliminar", icon: "hi-solid-exclamation" },
 ]);
+const modalAction = reactive({ action: "", id: "" });
+const modalShow = ref(false);
+const modalTitle = ref("");
 
 async function loadData() {
   try {
@@ -131,43 +107,55 @@ async function action(action) {
       query: { id: action.id },
     });
   } else if (action.action === "changeStatus") {
+    modalTitle.value = "¿Cambiar estado del empleado?";
+    modalAction.action = action.action;
+    modalAction.id = action.id;
+    modalShow.value = true;
+  } else if (action.action === "delete") {
+    modalTitle.value = "¿Eliminar empleado?";
+    modalAction.action = action.action;
+    modalAction.id = action.id;
+    modalShow.value = true;
+  } else if (action.action === "disconnect") {
+    modalTitle.value = "¿Desvincular tarjeta del empleado?";
+    modalAction.action = action.action;
+    modalAction.id = action.id;
+    modalShow.value = true;
+  } else if (action.action === "connect") {
+    try {
+      router.push({
+        path: "/connect/cards/employees",
+        query: { id: action.id },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+async function confirm(action) {
+  if (action.action === "changeStatus") {
     try {
       await updateStatusEmployeeRequest(action.id);
       items.value = [];
       loadData();
+      modalShow.value = false;
       toast.success("¡Estado de empleado cambiado exitosamente!");
     } catch (error) {
+      modalShow.value = false;
       toast.error(
         "Se produjo un error al intentar cambiar el estado del empleado. Por favor, inténtalo nuevamente."
       );
     }
   } else if (action.action === "delete") {
     try {
-      show.value = true;
-      const employee = await getEmployeeRequest(action.id);
-      const role = await getRoleRequest(employee.data.roleId);
-      employeeDelete.fullName =
-        employee.data.firstName + " " + employee.data.lastName;
-      employeeDelete.role = role.data.name;
-      employeeDelete.status =
-        employee.data.status === "1" ? "Habilitado" : "Deshabilitado";
-      employeeDelete.staff.icon = employee.data.staff
-        ? "hi-solid-check-circle"
-        : "hi-solid-x-circle";
-      employeeDelete.staff.color = employee.data.staff
-        ? "text-green-600"
-        : "text-red-600";
-      employeeDelete.admin.icon = employee.data.admin
-        ? "hi-solid-check-circle"
-        : "hi-solid-x-circle";
-      employeeDelete.admin.color = employee.data.admin
-        ? "text-green-600"
-        : "text-red-600";
-      // await deleteEmployeeRequest(action.id);
+      await deleteEmployeeRequest(action.id);
       items.value = [];
       loadData();
-      toast.success("¡Empleado eliminada exitosamente!");
+      modalShow.value = false;
+      toast.success("¡Empleado eliminado exitosamente!");
     } catch (error) {
+      modalShow.value = false;
       toast.error(
         "Se produjo un error al intentar eliminar al empleado. Por favor, inténtalo nuevamente."
       );
@@ -177,20 +165,13 @@ async function action(action) {
       await disconnectCardEmployeeRequest(action.id);
       items.value = [];
       loadData();
+      modalShow.value = false;
       toast.success("¡Tarjeta desvinculada exitosamente!");
     } catch (error) {
+      modalShow.value = false;
       toast.error(
-        "Se produjo un error al intentar desvincular la tarjeta. Por favor, inténtalo nuevamente."
+        "El empleado no tiene una tarjeta vinculada o se produjo un error al intentar desvincular la tarjeta. Por favor, inténtalo nuevamente."
       );
-    }
-  } else if (action.action === "connect") {
-    try {
-      router.push({
-        path: "/connect/cards/employees",
-        query: { id: action.id },
-      });
-    } catch (error) {
-      console.log(error);
     }
   }
 }
@@ -251,47 +232,9 @@ onMounted(async () => {
     />
   </card-data>
   <ModalConfirm
-    title="¿Eliminar empleado?"
-    v-model="show"
-    @close="() => (show = false)"
-    @confirm="() => confirm()"
-  >
-    <div class="w-full mb-2 border-b border-gray-300">
-      <h6 class="font-semibold border-b text-red-500 border-b-gray-300">
-        Este empleado sera eliminado
-      </h6>
-      <div class="text-sm m-2">
-        <p class="">
-          Nombre completo:
-          <span class="text-base font-semibold">{{
-            employeeDelete.fullName
-          }}</span>
-        </p>
-        <p class="">
-          Rol:
-          <span class="text-base font-semibold">{{ employeeDelete.role }}</span>
-        </p>
-        <div class="flex justify-between">
-          <p class="">
-            Estado:
-            <span class="text-base font-semibold">{{
-              employeeDelete.status
-            }}</span>
-          </p>
-          <p>
-            Staff:
-            <span class="text-base" :class="employeeDelete.staff.color"
-              ><v-icon :name="employeeDelete.staff.icon"></v-icon
-            ></span>
-          </p>
-          <p>
-            Administrador:
-            <span class="text-base" :class="employeeDelete.admin.color"
-              ><v-icon :name="employeeDelete.admin.icon"></v-icon
-            ></span>
-          </p>
-        </div>
-      </div>
-    </div>
-  </ModalConfirm>
+    :title="modalTitle"
+    v-model="modalShow"
+    @close="() => (modalShow = false)"
+    @confirm="confirm(modalAction)"
+  />
 </template>
